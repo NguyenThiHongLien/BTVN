@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Homepage</title>
+        <!-- Liên kết đến các file khác như css, hình ảnh, ... trong thư mục static -->
+        <link
+            rel="stylesheet"
+            href="{{url_for('static', filename='style.css')}}"
+        />
+    </head>
+    <body>
+        <h1>Blogs Page</h1>
+
+        <ul class="ul">
+            <li class="list"><a class="menu" href="blog.html">Blogs</a> </li>
+            <li class="list"><a class="menu" href="about.html">About</a> </li>
+            <li class="list"><a class="menu" href="resignation.html">Resignation Letter</a></li>
+          </ul> 
+        
+
+        <h2> What's in your mind?</h2>
+
+        <form action="/movies" method="POST">
+            <label>Title</label> <br/>
+            <input type="text" name="title"> <br/>
+            <label>Content</label> <br/>
+            <input type="text" name="Content"> <br/> <br/> 
+            <button type="submit">Add new post</button> <br/>
+        </form>
+        {# 
+            Jinja template 
+            {% %} - một câu lệnh python 
+            {{ }} - một biểu thức, in ra kết quả 
+        #} 
+        
+        {% if not movies %}
+            <p> Không có bất kỳ bộ phim nào trong CSDL</p>
+        {% endif %}
+
+
+        {% for id in movies %}
+        <div>
+            <h3>{{ movies[id]["title"] }}</h3>
+        </div>
+        {% endfor %}
+    </body>
+</html>
