@@ -1,87 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/style.css">
-    <title>Index</title>
-    <link
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Homepage</title>
+        <!-- Liên kết đến các file khác như css, hình ảnh, ... trong thư mục static -->
+        <link
             rel="stylesheet"
             href="{{url_for('static', filename='style.css')}}"
         />
-        
-</head>
-<body>
-    <header>
+    </head>
+    <body>
         <h1>Blogs Page</h1>
-        <nav>
-            <ul class="ul">
-                <li class="list"><a class="menu" href="/">Blogs</a></li>
-                <li class="list"><a class="menu" href="/about">About</a></li>
-                <li class="list"><a class="menu" href="/resignation">Resignation Letter</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <section>
-        <h2> What's in your mind ?</h2>
-    
-        <form action="/add" method="post">
-            <label>Title</label><br/>
-            <input type="text" name="title"><br/>
-            <label>Content</label><br>
-            <textarea id cols="30" rows="10" name="content"></textarea><br/><br/>
-            <button type="submit">Add new blog</button>
+        <ul class="ul">
+            <li class="list"><a class="menu" href="blog.html">Blogs</a> </li>
+            <li class="list"><a class="menu" href="about.html">About</a> </li>
+            <li class="list"><a class="menu" href="resignation.html">Resignation Letter</a></li>
+          </ul> 
+        
 
-        </div>
-        {% if error %}
-            <p style="color: red;">Bạn cần nhập đầy đủ thông tin title và content</p>
-        {% endif %}
-    
+        <h2> What's in your mind?</h2>
+
+        <form action="/movies" method="POST">
+            <label>Title</label> <br/>
+            <input type="text" name="title" > <br/>
+            <label>Content</label> <br/>
+            <input type="text" name="Content"> <br/> <br/> 
+            <button type="submit">Add new post</button> <br/>
         </form>
-    </section>
-
-    <section>
-        <h1>All blogs</h1>
-    
-        <!--{#-->
-        <!--Jinja template-->
-        <!--{% %} - một câu lệnh python-->
-        <!--{{ }} - một biểu thức, in ra kết quả-->
-        <!--#}-->
-    
+        {# 
+            Jinja template 
+            {% %} - một câu lệnh python 
+            {{ }} - một biểu thức, in ra kết quả 
+        #} 
         
+        {% if not movies %}
+            <p> Không có bất kỳ bộ phim nào trong CSDL</p>
+        {% endif %}
 
-        <div class="list-posts"> 
-            {% if not blogs %}
-                <p>Không có bất kỳ bài post nào trong CSDL</p>
-            {% endif %}
-            
-            {% for blog in blogs %}
-            <hr>
-            <div class="post">
-                <div class="post-header">
-                    <p class="post-at">Post at: {{blog[3]}}</p>
-                </div>
-        
-                <div class="post-detail">
-                    <h3 class="post-title"> Title: {{ blog[1] }}</h3>
-                    <p class="post-detail"> Content: {{blog[2]}}</p>
-                    <a href="/edit">Edit this post</a>
-                </div>
-            </div>  
-            
-            {% endfor %}                       
-             
+
+        {% for id in movies %}
+        <div>
+            <h3>{{ movies[id]["title"] }}</h3>
         </div>
-    
-    
-    
-    </section>
-    <footer>
-        <hr>
-        <p class="copy-right">Blogs 2021</p>
-    </footer>
-</body>
+        {% endfor %}
+    </body>
 </html>

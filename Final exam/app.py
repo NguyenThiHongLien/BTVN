@@ -1,88 +1,58 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_mysqldb import MySQL
-from os import error
-
+from flask import Flask, render_template, Response, request, redirect
 
 app = Flask(__name__)
-app.secret_key = 'many random bytes'
 
-#db_config = {
-   # "host": "remotemysql.com",
-   # "user": "QyYiCxuWS2",
-   # "password": "DIeOFa6xzf",
-   # "database": "QyYiCxuWS2",
-   # "cursorclass": cursors.DictCursor
-#}
+#@app.route("/")
+#def index():
+    #return "Hello from server"
 
-#app.config['MYSQL_HOST'] = 'localhost'
-#app.config['MYSQL_USER'] = 'root'
-#app.config['MYSQL_PASSWORD'] = ''
-#app.config['MYSQL_DB'] = 'crud'
+movies = {
+    "1": {
+        "id": 101,
+        "title": "Squid Game",
+        "year": 2021
+    },
+    "2": {
+        "id": 102,
+        "title": "My name",
+        "year" : 2020
+    }
+}
 
-app.config['MYSQL_HOST'] = 'remotemysql.com'
-app.config['MYSQL_USER'] = 'QyYiCxuWS2'
-app.config['MYSQL_PASSWORD'] = 'DIeOFa6xzf'
-app.config['MYSQL_DB'] = 'QyYiCxuWS2'
+#Jinja
+@app.route("/")
+def index():
+    return render_template("index.html", movies = movies)
 
-mysql = MySQL(app)
-
-@app.route('/')
-def Index():
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT  * FROM blogs")
-    blogs = cur.fetchall()
-    cur.close()
-    
-
-
-    return render_template('index.html', blogs=blogs )
+#@app.route("/")
+#def index():
+    #return render_template("index.html")
 
 @app.route("/about")
 def about():
     return render_template("about.html")
 
+#path param
+@app.route("/movies/<movie_id>")
+def detail(movie_id):
+    movie = movies.get(movie_id)
+    #return Response(render_template("movie.html", movie=movie), status=404, mimetype="text/html")
+    return render_template("movie.html", movie=movie)
 
-@app.route("/resignation")
-def resignation():
-    return render_template("resignation.html")
+@app.route('/movies', methods=["GET"])
+def render_form():
+    return render_template("new-movie.html")
 
-@app.route('/add', methods = ['POST'])
-def insert():
 
-    if request.method == "POST":
-        flash("Data Inserted Successfully")
-        title = request.form['title']
-        content = request.form['content']
-        cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO blogs (title, content) VALUES (%s, %s)", (title, content))
-        mysql.connection.commit()
-        return redirect(url_for('Index'))
+@app.route('/movies', methods=["POST"])
+def new_movie():
+    title=request.form["title"]
+    year=request.form["year"]
+    movies[3] = {"id":103, "title": title, "year": year}
+    #return "Đã nhận yêu cầu post"
+    return redirect("/", code =302)
 
-#@app.route("/edit/<id>")
-#def edit(id):
-    #blogs = blogs.get(id)
-    #return render_template("edit.html",blogs = blogs)
 
-@app.route("/edit")
-def edit():
-    return render_template("edit.html")
-
-@app.route('/update',methods=['POST','GET'])
-def update():
-
-    if request.method == 'POST':
-        id_data = request.form['id']
-        title = request.form['title']
-        content = request.form['content']
-        cur = mysql.connection.cursor()
-        cur.execute("""
-               UPDATE blogs
-               SET title=%s, content=%s
-               WHERE id=%s
-            """, (title, content, id_data))
-        flash("Data Updated Successfully")
-        mysql.connection.commit()
-        return redirect(url_for('Index'))
 
 if __name__ == "__main__":
     app.run(debug=True)
