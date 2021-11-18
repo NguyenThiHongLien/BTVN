@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_mysqldb import MySQL
 from os import error
+from docx import Document
 
 
 app = Flask(__name__)
@@ -66,14 +67,14 @@ def insert():
 
 
 
-@app.route("/<id>", methods = ['GET'])
-def edit(id):
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT  * FROM blogs WHERE id = %s", id)
-    post = cur.fetchone()
-    cur.close()
+#@app.route("/<id>", methods = ['GET'])
+#def edit(id):
+    #cur = mysql.connection.cursor()
+    #cur.execute("SELECT  * FROM blogs WHERE id = %s", id)
+    #post = cur.fetchone()
+    #cur.close()
     
-    return render_template("edit.html", post =post)
+    #return render_template("edit.html", post =post)
 
 @app.route('/<id>',methods=['POST'])
 def update():
@@ -91,6 +92,33 @@ def update():
         flash("Data Updated Successfully")
         mysql.connection.commit()
         return redirect(url_for('Index'))
+
+@app.route("/resignation-letter", methods=["GET"])
+def render_form():
+    return render_template("resignation.html")
+
+
+
+@app.route("/resignation-letter", methods=["POST"])
+def create_file():
+    from pathlib import Path
+    
+    from docx import Document
+    from docx.shared import Cm
+    fullname = request.form.get("fullname")
+    reason = request.form.get("reason")
+
+    if fullname and reason:
+        doc = Document()
+        doc.add_heading("Resignation Letter", level=0)
+        doc.add_paragraph(fullname)
+        doc.add_paragraph(reason)
+        file_name = 'resignation-letter.docx'
+        doc.save(str(Path(__file__).parent.absolute())+'/static/resignation-letter.docx')
+        return render_template("resignation.html", file_created=True)
+    else:
+        flash("Fullname and reason cannot be empty")
+        return render_template("resignation.html", file_created=False)
 
 if __name__ == "__main__":
     app.run(debug=True)
