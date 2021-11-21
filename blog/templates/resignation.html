@@ -15,6 +15,9 @@
             <li class="list"><a class="menu" href="/resignation">Resignation Letter</a></li>
         </ul>
     </nav>
+    
+    {% block title %} Resignation Letter {% endblock %}
+    {% block content %}
 
     <section>
         <h2>Resignation Letter</h2>
@@ -36,17 +39,26 @@
             </div>
         </form>
     </section>
-    {% if error %}
-            <p style="color: red;">Bạn cần nhập đầy đủ thông tin title và content</p>
-        {% endif %}
+    {% if file_created %}
 
-        {% if file_name %}
-        <p>File created! Click on the link to download the file and send it to your boss right away :) 
-            <a href="/static/{{file_name}}" download="/static/{{file_name}}">Download
+<p>
+    File created! Click on the link to download the file and send it to your
+    boss right away :)
+    <a
+        href="{{ url_for('static', filename='resignation-letter.docx') }}"
+        download="{{ url_for('static', filename='resignation-letter.docx') }}"
+        >Download</a
+    >
+</p>
 
-            </a>
-        </p>
-        {% endif %}
+{% endif %} {% with messages = get_flashed_messages() %} {% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <p>{{ message }}</p>
+    {% endfor %}
+</div>
+{% endif %} {% endwith %} {% endblock %}
+
     <footer>
         <hr>
         <p class="copy-right">Blogs 2021</p>
