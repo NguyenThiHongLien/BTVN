@@ -8,11 +8,10 @@
 
 import sys
 import re
+import io
 
 """Baby Names exercise
-
 Định nghĩa hàm extract_names() dưới đây và gọi từ hàm main().
-
 Cấu trúc các tag html trong các file baby.html như sau:
 ...
 <h3 align="center">Popularity in 1990</h3>
@@ -21,7 +20,6 @@ Cấu trúc các tag html trong các file baby.html như sau:
 <tr align="right"><td>2</td><td>Christopher</td><td>Ashley</td>
 <tr align="right"><td>3</td><td>Matthew</td><td>Brittany</td>
 ...
-
 Các bước nên làm tuần tự:
  -Trích xuất năm
  -Lấy và in ra tên và thứ hạng phổ biến
@@ -35,8 +33,25 @@ def extract_names(filename):
   theo sau bởi các chuỗi tên-xếp hạng theo thứ tự abc.
   ['2006', 'Aaliyah 91', Aaron 57', 'Abagail 895', ' ...]
   """
-  # +++your code here+++
-  pass
+  year = 0
+  list_data = []
+  with open(filename, "r", encoding='utf-8-sig') as file:
+    for line in file:
+      if(year == 0):
+        re_year = re.search("Popularity in (\d+)", line)
+        if(re_year): 
+          year = re_year.groups()[0]
+          
+      re_name = re.findall("<td>(\d+)</td><td>([a-zA-Z]+)</td><td>([a-zA-Z]+)</td>", line)  
+      if(re_name):
+        list_data.append(re_name[0][1] + " " + re_name[0][0])
+        list_data.append(re_name[0][2] + " " + re_name[0][0])
+  list_data.sort(); 
+  list_data.insert(0, year)     
+  return list_data  
+
+
+    
 
 
 def main():
@@ -56,6 +71,15 @@ def main():
   # +++your code here+++
   # Với mỗi tên file, gọi hàm extract_names ở trên và in kết quả ra stdout
   # hoặc viết kết quả ra file summary (nếu có input --summaryfile).
+  list_data_name = []
+  for filename in args:
+    list_data_name += extract_names(filename)
+  if(summary):
+    with open('summary.txt', 'w') as file:
+      file.write("\n".join(list_data_name))
+      print("Vui lòng mở file summary.txt để xem kết quả")
+  else:
+      print(list_data_name)   
   
 if __name__ == '__main__':
   main()
