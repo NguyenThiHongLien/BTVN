@@ -59,11 +59,6 @@ def insert():
         mysql.connection.commit()
         return redirect(url_for('Index'))
 
-#@app.route("/edit/<id>")
-#def edit(id):
-    #blogs = blogs.get(id)
-    #return render_template("edit.html",blogs = blogs)
-
 
 
 
@@ -76,24 +71,7 @@ def edit(id):
     
     return render_template("edit.html", post =post)
 
-@app.route('/<id>',methods=['POST'])
-def update(id):
-    
-    if request.method == 'POST':
-        #id_data = request.form['id']
-        id_data = ["id"]
-        title = request.form['title']
-        content = request.form['content']
-        cur = mysql.connection.cursor()
-        cur.execute("""
-               UPDATE blogs
-               SET title=%s, content=%s
-               WHERE id=%s
-            """, (title, content, id_data))
-        flash("Data Updated Successfully")
-        mysql.connection.commit()
-        
-        return redirect(url_for('Index'))
+
 
 
 @app.route("/post/<post_id>", methods=["POST"])
