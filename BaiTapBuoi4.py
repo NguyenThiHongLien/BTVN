@@ -88,13 +88,11 @@ for i in range(2*n-1, n-1, -1):
 print("Bài 4:")
 #Cách 1:
 print("Cách 1:")
-lis= [{"Liên":28}, {"Khánh":25}, {"Trang":28}, {"Linh":25}, {"Nam":23}, {"Duy":23},{"Quynh":24}, {"Bao":29}, {"Nga":25}]
+my_dict = [dict(Trang=38, Thu=38, Ngoc=27, Thanh=26, Yen=25, Hang=22, Thuy=22)]
+def unique_value_dict(my_dict):
+    return set( val for dic in my_dict for val in dic.values())
 
-s = set()
-for dic in lis:
-   for val in dic.values():
-      s.add(val)
-print("Các độ tuổi duy nhất là:",s)   
+unique_value_dict(my_dict)
 
 #Cách 2:
 print("Cách 2:")
@@ -119,7 +117,7 @@ print ("danh sách value duy nhất:",list1)
 #Vd A = [3, 6, 7, 9, 11, 12] và một số nguyên sum. Tìm tất cả các cặp số (a,b) trong mảng A có tổng bằng sum
 #vd ở đây nếu sum = 18 thì kết quả là [(7,11), (6,12)]. Nếu không có cặp số nào thỏa mãn thì in ra list rỗng []
 print("Bài 5:")
-
+#Cách 1:
 my_list = list(map(int, input("Nhập list các số nguyên đã sắp xếp theo thứ tự tăng dần: ").split()))
 print("Nhập số nguyên tổng:")
 sum = int(input())
@@ -127,6 +125,17 @@ for i in my_list:
     for j in my_list:
         if ((int(i) + int(j)) == sum) and (int(i) != int(j)):
           print("Cặp số cần tìm:",[int(i),int(j)])
+
+# Cách 2:
+A = [3, 6, 7, 9, 11, 12]
+def find_pair(A, sum):
+    ans = []
+    for i in range(len(A)-1):
+        for j in range(i+1, len(A)):
+            if A[i] + A[j] == sum:
+                ans.append((A[i], A[j]))
+    return ans
+find_pair([3, 6, 7, 9, 11, 12], 18)
     
     
 
@@ -141,12 +150,13 @@ for i in my_list:
 
 print("Bài 3:")
 
-from datetime import datetime as dt
 import time
+from datetime import datetime
+
 while True:
-  
-  now = dt.now(tz=None)
-  Xmax_day = dt(2021,12,25,0,0,0) 
-  countdown = Xmax_day - now
-  print("Countdown to Xmas 2021:",countdown)
-  time.sleep(5)
+    time.sleep(10)
+    XMAS_DATE = datetime(year=2021, month=12, day=24)
+    countdown = XMAS_DATE - datetime.now()
+    print(f"Countdown to Xmas 2021: {countdown}")
+    if countdown == 0:
+        break
