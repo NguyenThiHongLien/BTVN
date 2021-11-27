@@ -22,3 +22,5 @@ Tham khảo ví dụ mẫu tại link sau: http://banx.pythonanywhere.com/
 Username: QyYiCxuWS2
 Password: DIeOFa6xzf
 Host: remotemysql.com
+Database: QyYiCxuWS2
+Table: blogs
