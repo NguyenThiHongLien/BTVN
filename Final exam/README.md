@@ -16,3 +16,9 @@ Gợi ý các framework/library sử dụng:
 -   python-docx: https://python-docx.readthedocs.io/en/latest/
 
 Tham khảo ví dụ mẫu tại link sau: http://banx.pythonanywhere.com/
+
+
+=> Bài Tập sử dụng : https://webphpmyadmin.com/index.php
+Username: QyYiCxuWS2
+Password: DIeOFa6xzf
+Host: remotemysql.com
