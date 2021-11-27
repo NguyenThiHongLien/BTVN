@@ -7,18 +7,6 @@ from docx import Document
 app = Flask(__name__)
 app.secret_key = 'many random bytes'
 
-#db_config = {
-   # "host": "remotemysql.com",
-   # "user": "QyYiCxuWS2",
-   # "password": "DIeOFa6xzf",
-   # "database": "QyYiCxuWS2",
-   # "cursorclass": cursors.DictCursor
-#}
-
-#app.config['MYSQL_HOST'] = 'localhost'
-#app.config['MYSQL_USER'] = 'root'
-#app.config['MYSQL_PASSWORD'] = ''
-#app.config['MYSQL_DB'] = 'crud'
 
 app.config['MYSQL_HOST'] = 'remotemysql.com'
 app.config['MYSQL_USER'] = 'QyYiCxuWS2'
